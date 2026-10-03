@@ -95,6 +95,47 @@ node scripts/report.mjs build ./ui-test-demo-2026-10-04
 
 ---
 
+## 分发与发布 / Distribution and publishing
+
+**安装（用户侧）** / Install for users:
+
+```bash
+# npm（已发布）/ from npm
+dsh plugin --profile desktop add software-design-test
+
+# GitHub（无需克隆）/ from GitHub
+dsh plugin --profile desktop add github:Inceptzws/software-design-test
+
+# 本地目录（改源码时）/ local checkout while editing
+dsh plugin --profile desktop add link:/abs/path/to/software-design-test
+```
+
+| 渠道 Channel | 地址 Location |
+| --- | --- |
+| npm | <https://www.npmjs.com/package/software-design-test> |
+| GitHub | <https://github.com/Inceptzws/software-design-test> |
+| Release（附 tarball） | <https://github.com/Inceptzws/software-design-test/releases> |
+
+**发布（维护者侧）** / Publish as a maintainer:
+
+```bash
+npm version patch|minor|major     # 改版本号并打 tag
+git push --follow-tags            # 触发 .github/workflows/publish.yml
+```
+
+`publish.yml` 走 **npm Trusted Publishing（OIDC）**：不需要长期 token，并自动生成 provenance。
+一次性配置：npmjs.com → 包页面 → **Settings → Trusted Publisher → GitHub Actions**，
+Organization or user `Inceptzws`、Repository `software-design-test`、Workflow filename `publish.yml`。
+
+> Why OIDC: npm 正在收紧**绕过 2FA 的 token**（账号变更 2026-08 起、直接发布 2027-01 起），
+> OIDC 是之后仍然可用的发布路径。**今天仍然可用**的备选方案是粒度访问令牌：
+> Packages & scopes → Read and write → 只勾 `software-design-test`，勾选 "Bypass 2FA"，
+> 存为仓库 secret `NPM_TOKEN`，然后取消 `publish.yml` 里 env 段的注释。
+
+`verify.yml` 在每次 push/PR 上跑：自检 8 项 + 29 条测试 + "包内不存在输入注入 API" 断言。
+
+---
+
 ## 三个技能 / Three skills
 
 | 技能 Skill | 用途 Purpose |

@@ -3,6 +3,14 @@
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 与[语义化版本](https://semver.org/lang/zh-CN/)。
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [SemVer](https://semver.org/).
 
+## [未发布] / [Unreleased]
+
+### 新增 / Added
+
+- `.github/workflows/publish.yml`：打 tag 时通过 **npm Trusted Publishing（OIDC）** 发布并生成
+  provenance；附粒度访问令牌的备用方案（对应 npm 收紧绕过 2FA 的 token 的时间表）。
+- README 新增「分发与发布」一节：npm / GitHub / Release 三个渠道与维护者发布流程。
+
 ## [1.2.0] - 2026-10-04
 
 ### 新增 / Added

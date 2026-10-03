@@ -1,0 +1,49 @@
+name: publish
+
+# Publishes to npm on a version tag. Prefers npm **Trusted Publishing (OIDC)**: no long-lived
+# token, and provenance attestations are generated automatically.
+#
+# 打版本 tag 时发布到 npm。优先使用 npm **Trusted Publishing（OIDC）**：不需要长期 token，
+# 并自动生成 provenance 证明。
+#
+# One-time setup on npmjs.com (package → Settings → Trusted Publisher → GitHub Actions):
+#   Organization or user: Inceptzws
+#   Repository:           software-design-test
+#   Workflow filename:    publish.yml
+#   Environment:          (leave empty)
+#
+# 一次性配置：npmjs.com → 包页面 → Settings → Trusted Publisher → GitHub Actions，按上面填。
+# 这是因为 npm 正在收紧绕过 2FA 的 token（账号变更 2026-08 起、直接发布 2027-01 起），
+# OIDC 是之后仍然可用的路径。
+#
+# Fallback (a token still works today): create a granular access token with
+#   Packages & scopes → Read and write → only `software-design-test`, check "Bypass 2FA",
+# then store it as the repository secret NPM_TOKEN. The commented block below uses it.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # required for npm trusted publishing / provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Verify before publishing
+        run: |
+          node scripts/verify.mjs
+          node --test test/*.test.mjs
+      - name: Publish to npm (OIDC trusted publishing, with provenance)
+        run: npm publish --access public --provenance
+        # Token fallback — uncomment and add the NPM_TOKEN secret if trusted publishing is not set up:
+        # env:
+        #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
