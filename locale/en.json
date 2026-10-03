@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Software Design Testing (Simulated User)",
+    "description": "Test software the way a real user would: personas and scenarios, executable task cards, think-aloud execution with real mouse and keyboard, and screen-evidence judgement of element integrity and tool usability across macOS, Windows, iPhone and iPad — three escalating input modes, no synthetic pointer injection, and a mouse/keyboard/capture permission request before testing starts."
+  }
+}

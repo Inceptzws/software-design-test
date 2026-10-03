@@ -1,0 +1,23 @@
+# ============================================================================
+# software-design-test — DSH bundle patch
+# ============================================================================
+# Mount declaration. DSH stacks each plugin bundle's patch onto the profile's
+# configuration tree at boot, so this file inserts the skill-provider row that
+# publishes the observed-UI-testing skills.
+#
+# 挂载声明。DSH 在启动时把每个插件 bundle 的 patch 叠进 profile 的配置树，
+# 这个文件插入一行 skill provider，使观察式界面测试技能在 Harness 里可见。
+#
+# Install / 安装:
+#   dsh plugin --profile desktop add link:/absolute/path/to/software-design-test
+#   dsh plugin --profile desktop add github:<owner>/software-design-test
+#   dsh plugin --profile desktop add software-design-test
+#
+# The package ships no dependencies and no build step, so no pnpm
+# `allowBuilds` approval is needed.
+# 本包无依赖、无构建步骤，不需要 pnpm 的 allowBuilds 批准。
+# ============================================================================
+
+- insert:
+    - id: software-design-test
+      name: software-design-test

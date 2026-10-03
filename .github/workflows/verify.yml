@@ -1,0 +1,39 @@
+name: verify
+
+# Offline self-check + test suite. No network, no screen access, no input devices.
+# 离线自检 + 测试：不联网、不读屏、不碰输入设备。
+
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Self-check (mount, skills, links, injection scan, CLI end to end)
+        run: node scripts/verify.mjs
+      - name: Test suite
+        run: node --test test/*.test.mjs
+      - name: Assert the package cannot inject input
+        run: |
+          if grep -rnE "CGEventPost|SendInput|mouse_event|keybd_event|adb shell input|XCUIElement|pyautogui|cliclick" \
+               lib scripts --include='*.js' --include='*.mjs' | grep -vE "self-check|guard\.mjs|verify\.mjs"; then
+            echo "::error::input-injection API found in shipped code"
+            exit 1
+          fi
+          echo "no input-injection API in lib/ or scripts/"

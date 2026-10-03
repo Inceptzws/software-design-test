@@ -1,0 +1,80 @@
+{
+  "name": "software-design-test",
+  "version": "1.2.0",
+  "description": "软件设计测试（模拟真实用户）/ Software Design Testing by simulating real users for DeepSeek Harness: build personas and scenarios, decompose them into executable task cards, run think-aloud sessions with a real mouse and keyboard in three input modes, and judge element integrity and tool usability from screen recordings and screenshots on macOS, Windows, iPhone and iPad — with zero synthetic pointer injection and a permission gate before testing starts.",
+  "icon": "./icon.svg",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./skills/*": "./skills/*"
+  },
+  "files": [
+    "lib",
+    "skills",
+    "scripts",
+    "docs",
+    "locale",
+    "cordis.patch.yml",
+    "icon.svg",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "verify": "node scripts/verify.mjs",
+    "prepublishOnly": "node scripts/verify.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek",
+    "deepseek-harness",
+    "harness",
+    "plugin",
+    "cordis-plugin",
+    "skills",
+    "agent-skills",
+    "testing",
+    "qa",
+    "ui-testing",
+    "bug-hunting",
+    "user-simulation",
+    "personas",
+    "exploratory-testing",
+    "heuristic-evaluation",
+    "manual-testing",
+    "screen-recording",
+    "macos",
+    "windows",
+    "ios",
+    "ipados",
+    "accessibility",
+    "no-automation"
+  ],
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "Inceptzws",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Inceptzws/software-design-test.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Inceptzws/software-design-test/issues"
+  },
+  "homepage": "https://github.com/Inceptzws/software-design-test#readme"
+}
