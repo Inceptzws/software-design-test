@@ -1,6 +1,6 @@
 {
   "name": "software-design-test",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "软件设计测试（模拟真实用户）/ Software Design Testing by simulating real users for DeepSeek Harness: build personas and scenarios, decompose them into executable task cards, run think-aloud sessions with a real mouse and keyboard in three input modes, and judge element integrity and tool usability from screen recordings and screenshots on macOS, Windows, iPhone and iPad — with zero synthetic pointer injection and a permission gate before testing starts.",
   "icon": "./icon.svg",
   "type": "module",

@@ -21,9 +21,12 @@ name: publish
 # then store it as the repository secret NPM_TOKEN. The commented block below uses it.
 
 on:
-  push:
-    tags: ['v*']
+  # Manual first: turn on the tag trigger after the Trusted Publisher (or NPM_TOKEN) is configured,
+  # otherwise a tag push produces a red run that has nothing to do with the code.
+  # 先手动触发；配置好 Trusted Publisher（或 NPM_TOKEN）后，再取消下面 push 段的注释。
   workflow_dispatch:
+  # push:
+  #   tags: ['v*']
 
 permissions:
   contents: read

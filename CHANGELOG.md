@@ -3,13 +3,20 @@
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 与[语义化版本](https://semver.org/lang/zh-CN/)。
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [SemVer](https://semver.org/).
 
-## [未发布] / [Unreleased]
+## [1.2.1] - 2026-10-04
 
 ### 新增 / Added
 
-- `.github/workflows/publish.yml`：打 tag 时通过 **npm Trusted Publishing（OIDC）** 发布并生成
-  provenance；附粒度访问令牌的备用方案（对应 npm 收紧绕过 2FA 的 token 的时间表）。
-- README 新增「分发与发布」一节：npm / GitHub / Release 三个渠道与维护者发布流程。
+- README 新增「收录信息」一节：一句话价值、能力分类、安装命令（npm / GitHub / tarball / link）、
+  兼容与运行要求、权限与数据说明、**真实输出**（8/8 自检 + 29/29 测试 + 会话演示），
+  以及 DSH Plugin Hub 收录徽章与非官方声明。
+- `.github/workflows/publish.yml`：**npm Trusted Publishing（OIDC）** 发布工作流（含 provenance 与
+  粒度令牌备用方案）。默认仅手动触发，配置好 Trusted Publisher 或 `NPM_TOKEN` 后可改为打 tag 自动发布。
+- README「分发与发布」一节：npm / GitHub / Release 三个渠道与维护者发布流程。
+
+### 变更 / Changed
+
+- 安装命令同时给出 `--profile web` 与 `--profile desktop` 两种写法，并补充 tarball 安装方式。
 
 ## [1.2.0] - 2026-10-04
 

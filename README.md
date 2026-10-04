@@ -11,8 +11,18 @@ screen-evidence judgement of element integrity and tool usability — with zero 
 [![verify](https://github.com/Inceptzws/software-design-test/actions/workflows/verify.yml/badge.svg)](https://github.com/Inceptzws/software-design-test/actions/workflows/verify.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![dsh-plugin](https://img.shields.io/badge/dsh--plugin-ecosystem-7C6CF6)](https://github.com/topics/dsh-plugin)
+[![Listed on dsh-plugin.org](https://dsh-plugin.org/badges/listed.svg)](https://dsh-plugin.org/plugins/Inceptzws/software-design-test)
 
 [English](#english) | 中文
+
+> **一句话价值 / In one line**：装上它，Agent 就会**像真实用户一样**去测你的软件——先问你要鼠标、键盘与
+> 录屏权限，再按人物、场景、任务卡与"测试内容清单"（窗口尺寸、鼠标速度、工具栏可读性……）
+> 走一遍真实操作，用录屏与截屏给出可复现的缺陷报告。
+> **Installing it makes the agent test your software the way a real user would** — permission gate first,
+> then personas, task cards and a what-to-test checklist, executed by hand with screen evidence.
+
+**能力分类 / Category**：技能与智能体 (Skills & Agents) · **许可证 / License**：MIT ·
+**社区项目 / Community project**：非 DeepSeek 官方出品，与 DeepSeek AI 无隶属关系。
 
 ---
 
@@ -40,14 +50,18 @@ screen-evidence judgement of element integrity and tool usability — with zero 
 ## 安装 / Install
 
 ```bash
-# 本地目录（推荐；本机工作区里就是） / local checkout (recommended)
-dsh plugin --profile desktop add link:/Users/inception/Documents/deepseek-harness/default-workspace/software-design-test
-
-# GitHub（无需克隆）/ from GitHub
-dsh plugin --profile desktop add github:Inceptzws/software-design-test
-
-# npm / from npm
+# npm（已发布，预构建，无需构建授权）/ from npm — prebuilt, no build approval needed
+dsh plugin --profile web add software-design-test
 dsh plugin --profile desktop add software-design-test
+
+# GitHub（源码直装；本包零依赖零构建，不需要 allowBuilds）/ from GitHub
+dsh plugin --profile web add github:Inceptzws/software-design-test
+
+# Release 里的 tarball / the tarball from the release
+dsh plugin --profile web add ./software-design-test-1.2.1.tgz
+
+# 本地目录（改源码时）/ local checkout while editing
+dsh plugin --profile desktop add link:/abs/path/to/software-design-test
 ```
 
 重启 Harness，然后确认：
@@ -133,6 +147,51 @@ Organization or user `Inceptzws`、Repository `software-design-test`、Workflow 
 > 存为仓库 secret `NPM_TOKEN`，然后取消 `publish.yml` 里 env 段的注释。
 
 `verify.yml` 在每次 push/PR 上跑：自检 8 项 + 29 条测试 + "包内不存在输入注入 API" 断言。
+
+---
+
+## 收录信息 / Listing information
+
+供 [DSH Plugin Hub](https://dsh-plugin.org/) 收录与用户评估使用 / trust signals for the Hub and for users:
+
+| 项目 Item | 内容 Value |
+| --- | --- |
+| 一句话价值 Value | 让 Agent 像真实用户一样测软件：权限闸门 → 人物/场景/任务卡 → 真实操作 → 录屏截屏证据 → 可复现缺陷报告 |
+| 能力分类 Category | 技能与智能体 Skills & Agents |
+| 安装命令 Install | `dsh plugin --profile web add software-design-test`（npm）· `... add github:Inceptzws/software-design-test`（GitHub） |
+| 兼容 Compatibility | DeepSeek Harness `0.2.0-rc.2`（本机实测）；Node ≥ 20.11；capture 脚本覆盖 macOS / Windows / iOS 模拟器 / Android |
+| 运行要求 Requirements | 零依赖、零构建、**不联网**；只写会话目录；无外部服务 |
+| 权限 Permissions | 只读**截屏/录屏**（含屏幕录制系统权限）；**不需要**辅助功能、输入监控、自动化等控制权限；包内无任何输入注入 API |
+| 数据 Data | 证据只存本地会话目录；权限问卷里先定数据边界；涉密界面默认不录 |
+| 许可 License | MIT · 非官方社区项目，与 DeepSeek AI 无隶属关系 |
+
+**可见的证明 / Real output**（本仓库 CI 每次 push 都会跑）：
+
+```text
+$ node scripts/verify.mjs
+PASS  mount: plugin publishes every skill through ctx.skills
+PASS  mount: provider.get returns body without leaking rank/locator
+PASS  skills: frontmatter is valid and bilingual
+PASS  links: every relative markdown link resolves
+PASS  ban: shipped code contains no input-injection API
+PASS  content: method requirements are documented bilingually
+PASS  cli: session init / gate / finding / guard / report end to end
+PASS  cli: capture.mjs exposes no input subcommand and checks availability
+
+8/8 checks passed — 注入能力: 无 / capability to inject input: none
+
+$ node --test test/*.test.mjs
+ℹ tests 29   ℹ pass 29   ℹ fail 0
+```
+
+一次性会话演示 / a full session in one go:
+
+```bash
+node scripts/session.mjs init ./ui-test-<app>-<date> --platform macos --app "<app>"
+node scripts/session.mjs gate ./ui-test-<app>-<date> --mouse yes --keyboard L2 \
+  --screen-recording yes --screenshot yes --compliance yes     # 未通过闸门不会开始
+node scripts/report.mjs build ./ui-test-<app>-<date>            # 中英对照报告 + 测试内容分布
+```
 
 ---
 
